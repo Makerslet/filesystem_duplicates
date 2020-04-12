@@ -17,7 +17,7 @@ set_target_properties(${TARGET_BIN} PROPERTIES
     CXX_STANDARD_REQUIRED ON
 )
 
-target_include_directories(${TARGET_BIN})
+#target_include_directories(${TARGET_BIN})
 target_link_libraries(${TARGET_BIN}
     CONAN_PKG::gtest
     Threads::Threads

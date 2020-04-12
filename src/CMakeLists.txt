@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.2)
 set($TARGET filesystem_duplicates)
 
 add_executable(${TARGET}
+    arguments_parser.h arguments_parser.cpp
     main.cpp)
 
 set_target_properties(${TARGET} PROPERTIES
