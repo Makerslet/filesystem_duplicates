@@ -1,18 +1,34 @@
 #include "filesystem_scanner.h"
+
 #include <boost/filesystem.hpp>
 #include <boost/regex.hpp>
 
+#include <queue>
+
 filesystem_scanner::filesystem_scanner(){}
 
-filesystem_scanner::results filesystem_scanner::scan(
-        const paths& included, const paths& excluded,
-        std::optional<size_t> scanning_level,
-        std::optional<size_t> scanning_file_min_size,
-        std::vector<std::string> scanning_masks
+filesystem_scanner::grouped_by_size filesystem_scanner::scan(const paths& included, const paths& excluded,
+        const std::optional<size_t> &scanning_level,
+        const std::optional<size_t> &scanning_file_min_size,
+        const std::vector<std::string> &scanning_masks
         )
 {
     filters f = create_filters(scanning_file_min_size, scanning_masks);
+    auto all_files = all_accepted_files(included, excluded, scanning_level, f);
 
+    auto it = std::remove_if(all_files.begin(), all_files.end(), [](const paths& p) {return p.size() > 1;});
+    all_files.erase(it, all_files.end());
+
+    return all_files;
+}
+
+std::unordered_map<size_t, filesystem_scanner::paths> filesystem_scanner::all_accepted_files(
+        const paths& included, const paths& excluded,
+        const std::optional<size_t>& scanning_level,
+        const filters& f)
+{
+    std::unordered_map<size_t, filesystem_scanner::paths> result;
+    return result;
 }
 
 filesystem_scanner::filters filesystem_scanner::create_filters(
