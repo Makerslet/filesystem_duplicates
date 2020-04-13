@@ -3,6 +3,7 @@ set($TARGET filesystem_duplicates)
 
 add_executable(${TARGET}
     arguments_parser.h arguments_parser.cpp
+    filesystem_scanner.h filesystem_scanner.cpp
     main.cpp)
 
 set_target_properties(${TARGET} PROPERTIES
