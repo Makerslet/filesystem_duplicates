@@ -3,31 +3,60 @@
 
 #include <boost/filesystem/path.hpp>
 #include <functional>
+#include <queue>
+#include <set>
+
+struct scan_task {
+    std::vector<boost::filesystem::path> scanning_paths;
+    std::vector<boost::filesystem::path> scanning_excluded_paths;
+    std::optional<size_t> scanning_level;
+    std::optional<size_t> scanning_file_min_size;
+    std::vector<std::string> scanning_masks;
+};
 
 class filesystem_scanner
 {
 public:
     using paths = std::vector<boost::filesystem::path>;
     using file_filter = std::function<bool(const boost::filesystem::path&)>;
-    using filters = std::vector<file_filter>;
-    using grouped_by_size = std::unordered_map<size_t, paths>;
+    using file_filters = std::vector<file_filter>;
+
+    using uniq_paths = std::set<boost::filesystem::path>;
+    using grouped_by_size = std::unordered_map<size_t, uniq_paths>;
+
+    using dir_rel_level = size_t;
+    using scan_dir = std::pair<boost::filesystem::path, dir_rel_level>;
+    using dir_filter = std::function<bool(const scan_dir&)>;
+    using dir_filters = std::vector<dir_filter>;
 
     filesystem_scanner();
-    grouped_by_size scan(
-            const paths& included, const paths& excluded,
-            const std::optional<size_t>& scanning_level,
-            const std::optional<size_t>& scanning_file_min_size,
-            const std::vector<std::string>& scanning_masks);
+    grouped_by_size scan(const scan_task& task);
 
 private:
-    std::unordered_map<size_t, paths> all_accepted_files(
-            const paths& included, const paths& excluded,
-            const std::optional<size_t>& scanning_level,
-            const filters& f);
-    filters create_filters(const std::optional<size_t> &scanning_file_min_size,
+    void handle_dir(std::queue<scan_dir>& to_scan_dirs,
+                    const dir_filters &dir_f,
+                    const scan_dir dir);
+
+    void handle_file(grouped_by_size& result,
+                     const file_filters& file_f,
+                     const boost::filesystem::path& path);
+
+    grouped_by_size all_accepted_files(
+            const paths& included,
+            const dir_filters &dir_f,
+            const file_filters& file_f);
+
+    file_filters create_file_filters(
+            const std::optional<size_t> &scanning_file_min_size,
             const std::vector<std::string> &scanning_masks);
     file_filter file_min_size_filter(size_t file_min_size);
     file_filter file_accepted_masks(const std::vector<std::string>& scanning_masks);
+
+    dir_filters create_dir_filters(
+            const std::optional<size_t>& scanning_level,
+            const paths& excluded);
+    dir_filter dir_level_filter(size_t level);
+    dir_filter dir_excluded_filter(paths excluded);
 };
 
 #endif // FILESYSTEM_SCANNER_H

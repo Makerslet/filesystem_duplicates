@@ -10,7 +10,7 @@ else()
     project(${TARGET} VERSION 0.0.1)
 endif()
 
-find_package(Boost COMPONENTS program_options filesystem REQUIRED)
+find_package(Boost COMPONENTS program_options filesystem regex REQUIRED)
 
 # включаем тесты
 enable_testing()
