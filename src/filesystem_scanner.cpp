@@ -13,10 +13,8 @@ filesystem_scanner::grouped_by_size filesystem_scanner::scan(const scan_task& ta
     file_filters file_f = create_file_filters(task.scanning_file_min_size, task.scanning_masks);
 
     auto all_files = all_accepted_files(task.scanning_paths, dir_f, file_f);
-    auto iter = all_files.begin();
-    while(iter != all_files.end())
-        if(iter->second.size() == 1)
-            iter = all_files.erase(iter);
+
+    remove_uniq_sized_files(all_files);
 
     return all_files;
 }
@@ -32,12 +30,12 @@ void filesystem_scanner::handle_dir(std::queue<scan_dir> &result,
 
 void filesystem_scanner::handle_file(grouped_by_size& result,
                                      const file_filters& file_f,
-                                     const boost::filesystem::path& path)
+                                     const bfs::path& path)
 {
     auto predicate = [path](const file_filter& filter) {return filter(path);};
     if(std::all_of(file_f.begin(), file_f.end(), predicate))
     {
-        size_t size = boost::filesystem::file_size(path);
+        size_t size = bfs::file_size(path);
         auto found_iter = result.find(size);
         if(found_iter == result.end())
         {
@@ -48,6 +46,15 @@ void filesystem_scanner::handle_file(grouped_by_size& result,
         else
             found_iter->second.insert(path);
     }
+}
+void filesystem_scanner::remove_uniq_sized_files(grouped_by_size& files)
+{
+    auto iter = files.begin();
+    while(iter != files.end())
+        if(iter->second.size() < 2)
+            iter = files.erase(iter);
+        else
+            ++iter;
 }
 
 filesystem_scanner::grouped_by_size filesystem_scanner::all_accepted_files(
@@ -63,23 +70,38 @@ filesystem_scanner::grouped_by_size filesystem_scanner::all_accepted_files(
 
     while(!to_scan_dirs.empty())
     {
-        const scan_dir& current_scan_dir = to_scan_dirs.front();
+        scan_dir current_scan_dir = to_scan_dirs.front();
         to_scan_dirs.pop();
 
-        const boost::filesystem::path& current_dir = current_scan_dir.first;
-        for(const boost::filesystem::directory_entry& nested :
-            boost::filesystem::directory_iterator(current_dir))
+        bfs::path current_dir = current_scan_dir.first;
+        if(!bfs::exists(current_dir))
+            continue;
+
+        bsys::error_code error;
+        bfs::directory_iterator it(current_dir, error);
+        if(error.failed())
+            continue;
+
+        bfs::directory_iterator end;
+        for(;it != end; ++it)
         {
-            if(boost::filesystem::is_directory(nested))
-                handle_dir(to_scan_dirs, dir_f, std::make_pair(nested, current_scan_dir.second + 1));
-            else if(boost::filesystem::is_symlink(nested))
+            if(bfs::is_directory(*it))
+                handle_dir(to_scan_dirs, dir_f, std::make_pair(*it, current_scan_dir.second + 1));
+            else if(bfs::is_regular_file(*it))
             {
-                auto resolved = boost::filesystem::read_symlink(nested);
-                if(!resolved.empty())
-                    handle_file(result, file_f, nested);
+                bfs::file_status stat = bfs::symlink_status(*it);
+                if(stat.type() == bfs::file_type::symlink_file)
+                {
+                    bfs::path rel_path = bfs::read_symlink(*it);
+                    bfs::path base_path = it->path().parent_path();
+                    bfs::path abs_path = bfs::canonical(rel_path, base_path);
+
+                    if(bfs::exists(abs_path))
+                        handle_file(result, file_f, abs_path);
+                }
+                else
+                    handle_file(result, file_f, *it);
             }
-            else if(boost::filesystem::is_regular_file(nested))
-                handle_file(result, file_f, nested);
         }
     }
 
@@ -94,6 +116,8 @@ filesystem_scanner::file_filters filesystem_scanner::create_file_filters(
 
     if(scanning_file_min_size.has_value())
         f.emplace_back(file_min_size_filter(scanning_file_min_size.value()));
+    else
+        f.emplace_back(file_min_size_filter(1));
 
     if(!scanning_masks.empty())
         f.emplace_back(file_accepted_masks(scanning_masks));
@@ -104,8 +128,8 @@ filesystem_scanner::file_filters filesystem_scanner::create_file_filters(
 
 filesystem_scanner::file_filter filesystem_scanner::file_min_size_filter(size_t file_min_size)
 {
-    return [file_min_size](const boost::filesystem::path& path) {
-        return boost::filesystem::file_size(path) >= file_min_size;
+    return [file_min_size](const bfs::path& path) {
+        return bfs::file_size(path) >= file_min_size;
     };
 }
 
@@ -116,7 +140,7 @@ filesystem_scanner::file_filter filesystem_scanner::file_accepted_masks(
     for(const auto& str_mask : scanning_masks)
         regex_masks.emplace_back(boost::regex(str_mask));
 
-    return [regex_masks](const boost::filesystem::path& path) {
+    return [regex_masks](const bfs::path& path) {
         std::string file_name = path.filename().string();
 
         auto predicate = [file_name](const boost::regex& regex) {
@@ -150,20 +174,24 @@ filesystem_scanner::dir_filter filesystem_scanner::dir_level_filter(size_t level
 
 filesystem_scanner::dir_filter filesystem_scanner::dir_excluded_filter(paths excluded)
 {
-    return [excluded](const scan_dir& description) mutable {
+    return [excluded](const scan_dir& description) {
 
         if(excluded.empty())
             return true;
 
         const auto& dir = description.first;
-        auto iter = std::remove(excluded.begin(), excluded.end(), dir);
-
-        if(iter == excluded.end())
-            return true;
-        else
+        auto predicate = [dir](const bfs::path& ex)
         {
-            excluded.erase(iter, excluded.end());
-            return false;
-        }
+            if(dir == ex)
+                return true;
+            else
+            {
+                //check relative
+                return false;
+            }
+        };
+
+        auto iter = std::find_if(excluded.begin(), excluded.end(), predicate);
+        return iter == excluded.end();
     };
 }

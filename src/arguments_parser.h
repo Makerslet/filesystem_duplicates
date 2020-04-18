@@ -7,9 +7,12 @@
 
 #include <boost/filesystem/path.hpp>
 
+namespace bfs = boost::filesystem;
+namespace bpo = boost::program_options;
+
 struct arguments {
-    std::vector<boost::filesystem::path> scanning_paths;
-    std::vector<boost::filesystem::path> scanning_excluded_paths;
+    std::vector<bfs::path> scanning_paths;
+    std::vector<bfs::path> scanning_excluded_paths;
     std::optional<size_t> scanning_level;
     std::optional<size_t> scanning_file_min_size;
     std::vector<std::string> scanning_masks;
@@ -33,8 +36,8 @@ public:
     parse_result parse(int argc, char** argv);
 
 private:
-    boost::program_options::options_description _description;
-    boost::program_options::variables_map _values_storage;
+    bpo::options_description _description;
+    bpo::variables_map _values_storage;
 };
 
 #endif // ARGUMENTS_PARSER_H

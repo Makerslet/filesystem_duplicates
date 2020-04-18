@@ -1,4 +1,5 @@
 #include "arguments_parser.h"
+#include <boost/filesystem/operations.hpp>
 #include <iostream>
 
 arguments_parser::arguments_parser() :
@@ -7,28 +8,28 @@ arguments_parser::arguments_parser() :
     _description.add_options()
             ("h", "show help")
 
-            ("t", boost::program_options::value<
-                    std::vector<boost::filesystem::path>>(), "set directories for searching")
+            ("t", bpo::value<
+                    std::vector<bfs::path>>(), "set directories for searching")
 
-            ("e", boost::program_options::value<
-                    std::vector<boost::filesystem::path>>(), "set exluded directories")
+            ("e", bpo::value<
+                    std::vector<bfs::path>>(), "set exluded directories")
 
-            ("l", boost::program_options::value<size_t>(), "level of scanning")
+            ("l", bpo::value<size_t>(), "level of scanning")
 
-            ("ms", boost::program_options::value<size_t>(), "min size file for scanning")
+            ("ms", bpo::value<size_t>(), "min size file for scanning")
 
-            ("m", boost::program_options::value<
+            ("m", bpo::value<
                     std::vector<std::string>>(), "accepted file's masks")
 
-            ("bs", boost::program_options::value<size_t>(), "block size for scanning")
+            ("bs", bpo::value<size_t>(), "block size for scanning")
 
-            ("a", boost::program_options::value<std::string>(), "hash algo");
+            ("a", bpo::value<std::string>(), "hash algo");
 }
 
 arguments_parser::parse_result arguments_parser::parse(int argc, char **argv)
 {
-    auto parsed_options = boost::program_options::parse_command_line(argc, argv, _description);
-    boost::program_options::store(parsed_options, _values_storage);
+    auto parsed_options = bpo::parse_command_line(argc, argv, _description);
+    bpo::store(parsed_options, _values_storage);
 
     if (_values_storage.count("h")) {
         std::cout << _description << std::endl;
@@ -38,13 +39,23 @@ arguments_parser::parse_result arguments_parser::parse(int argc, char **argv)
     arguments result;
     // required parameter
     if(_values_storage.count("t"))
-        result.scanning_paths = _values_storage["t"].as<std::vector<boost::filesystem::path>>();
+    {
+        result.scanning_paths = _values_storage["t"].as<std::vector<bfs::path>>();
+        for(auto& path : result.scanning_paths)
+            if(path.is_relative())
+                path = bfs::canonical(path);
+    }
     else
         throw wrong_args_exception("directories for scanning wasn't set");
 
     // optional parameter
     if(_values_storage.count("e"))
-        result.scanning_excluded_paths = _values_storage["e"].as<std::vector<boost::filesystem::path>>();
+    {
+        result.scanning_excluded_paths = _values_storage["e"].as<std::vector<bfs::path>>();
+        for(auto& path : result.scanning_excluded_paths)
+            if(path.is_relative())
+                path = bfs::canonical(path);
+    }
 
     // optional parameter
     if(_values_storage.count("l"))

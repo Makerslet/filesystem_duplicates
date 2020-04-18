@@ -6,9 +6,12 @@
 #include <queue>
 #include <set>
 
+namespace bfs = boost::filesystem;
+namespace bsys = boost::system;
+
 struct scan_task {
-    std::vector<boost::filesystem::path> scanning_paths;
-    std::vector<boost::filesystem::path> scanning_excluded_paths;
+    std::vector<bfs::path> scanning_paths;
+    std::vector<bfs::path> scanning_excluded_paths;
     std::optional<size_t> scanning_level;
     std::optional<size_t> scanning_file_min_size;
     std::vector<std::string> scanning_masks;
@@ -17,15 +20,15 @@ struct scan_task {
 class filesystem_scanner
 {
 public:
-    using paths = std::vector<boost::filesystem::path>;
-    using file_filter = std::function<bool(const boost::filesystem::path&)>;
+    using paths = std::vector<bfs::path>;
+    using file_filter = std::function<bool(const bfs::path&)>;
     using file_filters = std::vector<file_filter>;
 
-    using uniq_paths = std::set<boost::filesystem::path>;
+    using uniq_paths = std::set<bfs::path>;
     using grouped_by_size = std::unordered_map<size_t, uniq_paths>;
 
     using dir_rel_level = size_t;
-    using scan_dir = std::pair<boost::filesystem::path, dir_rel_level>;
+    using scan_dir = std::pair<bfs::path, dir_rel_level>;
     using dir_filter = std::function<bool(const scan_dir&)>;
     using dir_filters = std::vector<dir_filter>;
 
@@ -39,12 +42,14 @@ private:
 
     void handle_file(grouped_by_size& result,
                      const file_filters& file_f,
-                     const boost::filesystem::path& path);
+                     const bfs::path& path);
 
     grouped_by_size all_accepted_files(
             const paths& included,
             const dir_filters &dir_f,
             const file_filters& file_f);
+
+    void remove_uniq_sized_files(grouped_by_size& files);
 
     file_filters create_file_filters(
             const std::optional<size_t> &scanning_file_min_size,
