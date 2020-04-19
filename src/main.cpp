@@ -1,5 +1,6 @@
 #include "arguments_parser.h"
 #include "filesystem_scanner.h"
+#include "duplicates_scanner.h"
 
 #include <iostream>
 
@@ -27,7 +28,16 @@ int main (int argc, char** argv)
                 res_value.scanning_file_min_size,
                 res_value.scanning_masks};
     filesystem_scanner scanner;
-    scanner.scan(task);
+    auto files_to_check = scanner.scan(task);
+
+    duplicates_scanner files_scanner(res_value.scanning_block_size, res_value.scanning_hash_algo);
+    for(const auto& group : files_scanner.find(files_to_check))
+    {
+        for(const auto& file : group)
+            std::cout << file << std::endl;
+
+        std::cout << std::endl;
+    }
 
     return 0;
 }
