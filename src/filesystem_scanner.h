@@ -36,6 +36,7 @@ public:
     grouped_by_size scan(const scan_task& task);
 
 private:
+    paths pre_check(const paths& included, const paths& exluded);
     void handle_dir(std::queue<scan_dir>& to_scan_dirs,
                     const dir_filters &dir_f,
                     const scan_dir dir);

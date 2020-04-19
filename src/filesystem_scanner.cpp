@@ -12,11 +12,40 @@ filesystem_scanner::grouped_by_size filesystem_scanner::scan(const scan_task& ta
     dir_filters dir_f = create_dir_filters(task.scanning_level, task.scanning_excluded_paths);
     file_filters file_f = create_file_filters(task.scanning_file_min_size, task.scanning_masks);
 
-    auto all_files = all_accepted_files(task.scanning_paths, dir_f, file_f);
+    auto to_scan_paths = pre_check(task.scanning_paths, task.scanning_excluded_paths);
+    auto all_files = all_accepted_files(to_scan_paths, dir_f, file_f);
 
     remove_uniq_sized_files(all_files);
 
     return all_files;
+}
+
+filesystem_scanner::paths filesystem_scanner::pre_check(
+        const paths& included, const paths& exluded)
+{
+    paths result;
+
+    for(const bfs::path& in_path : included)
+    {
+        bool need_add = true;
+
+        for(const bfs::path& ex_path: exluded)
+        {
+            auto in_string = in_path.string();
+            auto ex_string = ex_path.string();
+
+            if(in_string.find(ex_string) != std::string::npos)
+            {
+                need_add = false;
+                break;
+            }
+        }
+
+        if(need_add)
+            result.push_back(in_path);
+    }
+
+    return result;
 }
 
 void filesystem_scanner::handle_dir(std::queue<scan_dir> &result,
@@ -183,11 +212,16 @@ filesystem_scanner::dir_filter filesystem_scanner::dir_excluded_filter(paths exc
         auto predicate = [dir](const bfs::path& ex)
         {
             if(dir == ex)
-                return true;
+                return false;
             else
             {
-                //check relative
-                return false;
+                auto dir_string = dir.string();
+                auto ex_string = ex.string();
+
+                if(dir_string.find(ex_string) == std::string::npos)
+                    return true;
+                else
+                    return false;
             }
         };
 
