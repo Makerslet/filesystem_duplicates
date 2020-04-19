@@ -1,5 +1,8 @@
 #include "duplicates_scanner.h"
 
+#include <boost/crc.hpp>
+#include <boost/uuid/detail/md5.hpp>
+
 #include <fstream>
 #include <unordered_map>
 
@@ -13,9 +16,17 @@ duplicates_scanner::duplicates_scanner(
         _block_size = 4 * 1024;
 
     if(hash_algo.has_value())
-        _hash_algo = hash_algo.value();
+    {
+        std::string hash_str = hash_algo.value();
+        if(hash_str == "crc16")
+            _hash = hashCrc<boost::crc_16_type>();
+        else if(hash_str == "crc32")
+            _hash = hashCrc<boost::crc_32_type>();
+        else
+            throw std::runtime_error("unknown hashing algorithm");
+    }
     else
-        _hash_algo = "md5";
+        _hash = hashCrc<boost::crc_32_type>();
 }
 
 std::vector<duplicates_scanner::paths> duplicates_scanner::find(const grouped_by_size& files)
@@ -32,14 +43,14 @@ std::vector<duplicates_scanner::paths> duplicates_scanner::find(const grouped_by
     return result;
 }
 
-size_t duplicates_scanner::hash(char* buffer)
+template<typename T>
+duplicates_scanner::hash_function duplicates_scanner::hashCrc()
 {
-    size_t result = 0;
-
-    for(size_t i = 0; i < _block_size; ++i)
-        result += buffer[i];
-
-    return result;
+    return [](char* data, std::size_t size) {
+        T hash_algo;
+        hash_algo.process_bytes(data, size);
+        return hash_algo.checksum();
+    };
 }
 
 duplicates_scanner::paths duplicates_scanner::analyse_group(const uniq_paths& files_paths)
@@ -66,7 +77,7 @@ duplicates_scanner::paths duplicates_scanner::analyse_group(const uniq_paths& fi
 
             auto reading_result = value.first.readsome(buffer.data(), _block_size);
             end_of_files = static_cast<size_t>(reading_result) < _block_size;
-            value.second = hash(buffer.data());
+            value.second = _hash(buffer.data(), buffer.size());
         }
 
         auto iter = hashes.begin();
