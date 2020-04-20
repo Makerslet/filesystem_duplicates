@@ -1,7 +1,6 @@
 #include "duplicates_scanner.h"
 
 #include <boost/crc.hpp>
-#include <boost/uuid/detail/md5.hpp>
 
 #include <fstream>
 #include <unordered_map>
