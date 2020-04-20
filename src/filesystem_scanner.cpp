@@ -110,7 +110,7 @@ grouped_by_size filesystem_scanner::all_accepted_files(
 
         bsys::error_code error;
         bfs::directory_iterator it(current_dir, error);
-        if(error.failed())
+        if(error.value() != bsys::errc::success)
             continue;
 
         bfs::directory_iterator end;
