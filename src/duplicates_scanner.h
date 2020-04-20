@@ -1,18 +1,14 @@
 #ifndef DUPLICATES_SCANNER_H
 #define DUPLICATES_SCANNER_H
 
-#include <boost/filesystem/path.hpp>
+#include "common_aliases.h"
+
 #include <unordered_map>
 #include <set>
-
-namespace bfs = boost::filesystem;
 
 class duplicates_scanner
 {
 public:
-    using paths = std::vector<bfs::path>;
-    using uniq_paths = std::set<bfs::path>;
-    using grouped_by_size = std::unordered_map<size_t, uniq_paths>;
     using hash_function = std::function<std::size_t(char*, std::size_t)>;
 
     duplicates_scanner(std::optional<size_t> block_size, std::optional<std::string> hash_algo);

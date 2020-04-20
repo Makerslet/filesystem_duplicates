@@ -21,14 +21,12 @@ int main (int argc, char** argv)
         return 0;
 
     auto res_value = result.value();
-    scan_task task {
-                res_value.scanning_paths,
+    filesystem_scanner scanner(
                 res_value.scanning_excluded_paths,
                 res_value.scanning_level,
                 res_value.scanning_file_min_size,
-                res_value.scanning_masks};
-    filesystem_scanner scanner;
-    auto files_to_check = scanner.scan(task);
+                res_value.scanning_masks);
+    auto files_to_check = scanner.scan(res_value.scanning_paths, res_value.scanning_excluded_paths);
 
     duplicates_scanner files_scanner(res_value.scanning_block_size, res_value.scanning_hash_algo);
     for(const auto& group : files_scanner.find(files_to_check))

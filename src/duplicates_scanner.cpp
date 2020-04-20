@@ -29,7 +29,7 @@ duplicates_scanner::duplicates_scanner(
         _hash = hashCrc<boost::crc_32_type>();
 }
 
-std::vector<duplicates_scanner::paths> duplicates_scanner::find(const grouped_by_size& files)
+std::vector<paths> duplicates_scanner::find(const grouped_by_size& files)
 {
     std::vector<paths> result;
 
@@ -53,7 +53,7 @@ duplicates_scanner::hash_function duplicates_scanner::hashCrc()
     };
 }
 
-duplicates_scanner::paths duplicates_scanner::analyse_group(const uniq_paths& files_paths)
+paths duplicates_scanner::analyse_group(const uniq_paths& files_paths)
 {
     paths result;
     std::unordered_map<std::string, std::pair<std::fstream, size_t>> hashes;
