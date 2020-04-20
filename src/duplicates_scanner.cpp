@@ -43,7 +43,7 @@ std::vector<paths> duplicates_scanner::find(const grouped_by_size& files)
 }
 
 template<typename T>
-duplicates_scanner::hash_function duplicates_scanner::hashCrc()
+duplicates_scanner::hash_function duplicates_scanner::hash_creator()
 {
     return [](char* data, std::size_t size) {
         T hash_algo;
