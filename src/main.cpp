@@ -26,7 +26,7 @@ int main (int argc, char** argv)
                 res_value.scanning_level,
                 res_value.scanning_file_min_size,
                 res_value.scanning_masks);
-    auto files_to_check = scanner.scan(res_value.scanning_paths, res_value.scanning_excluded_paths);
+    auto files_to_check = scanner.scan(res_value.scanning_paths);
 
     duplicates_scanner files_scanner(res_value.scanning_block_size, res_value.scanning_hash_algo);
     for(const auto& group : files_scanner.find(files_to_check))

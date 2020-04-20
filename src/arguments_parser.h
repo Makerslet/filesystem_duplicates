@@ -10,20 +10,52 @@
 namespace bfs = boost::filesystem;
 namespace bpo = boost::program_options;
 
+/**
+ * @brief Структура содержащая результаты парсинга входных аргументов
+ */
 struct arguments {
+    /**
+     * @details Пути для сканирования
+     */
     std::vector<bfs::path> scanning_paths;
+    /**
+     * @details Пути исключаемы из сканирования
+     */
     std::vector<bfs::path> scanning_excluded_paths;
+    /**
+     * @details Глубина сканирования
+     */
     std::optional<size_t> scanning_level;
+    /**
+     * @details Минимальный размер файла, подлежащий рассмотрению
+     */
     std::optional<size_t> scanning_file_min_size;
+    /**
+     * @details Маски файлов
+     */
     std::vector<std::string> scanning_masks;
+    /**
+     * @details Размер блока при чтении файла
+     */
     std::optional<size_t> scanning_block_size;
+    /**
+     * @details Алгоритм хеширования
+     */
     std::optional<std::string> scanning_hash_algo;
 };
 
 
+/**
+ * @brief Класс парсинга аргументов командной строки
+ *  Опирается на boost program options
+ */
 class arguments_parser
 {
 public:
+
+    /**
+     * @brief Класс исключения ошибочных аргументов командной строки
+     */
     class wrong_args_exception : public std::invalid_argument
     {
     public:
@@ -32,7 +64,18 @@ public:
     };
     using parse_result = std::optional<arguments>;
 
+
+    /**
+     * @brief Конструктор
+     */
     arguments_parser();
+
+    /**
+     * @brief Метод парсинга аргументов командной строки
+     * @arg argc - количество аргументов
+     * @arg argv - массив аргументов
+     * @return Результат парсинга
+     */
     parse_result parse(int argc, char** argv);
 
 private:

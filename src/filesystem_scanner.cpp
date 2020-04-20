@@ -6,19 +6,19 @@
 #include <queue>
 
 filesystem_scanner::filesystem_scanner(
-        const paths &scanning_exluded,
+        const paths &scanning_excluded,
         std::optional<size_t> scanning_level,
         std::optional<size_t> scanning_file_min_size,
-        std::vector<std::string> scanning_masks)
+        std::vector<std::string> scanning_masks) :
+    _excluded(scanning_excluded)
 {
-    _dirs_f = create_dir_filters(scanning_level, scanning_exluded);
+    _dirs_f = create_dir_filters(scanning_level);
     _files_f = create_file_filters(scanning_file_min_size, scanning_masks);
 }
 
-grouped_by_size filesystem_scanner::scan(
-        const paths &included, const paths &excluded)
+grouped_by_size filesystem_scanner::scan(const paths &included)
 {
-    auto to_scan_paths = pre_check(included, excluded);
+    auto to_scan_paths = pre_check(included);
     auto all_files = all_accepted_files(to_scan_paths);
 
     remove_uniq_sized_files(all_files);
@@ -26,8 +26,7 @@ grouped_by_size filesystem_scanner::scan(
     return all_files;
 }
 
-paths filesystem_scanner::pre_check(
-        const paths& included, const paths& exluded)
+paths filesystem_scanner::pre_check(const paths& included)
 {
     paths result;
 
@@ -35,7 +34,7 @@ paths filesystem_scanner::pre_check(
     {
         bool need_add = true;
 
-        for(const bfs::path& ex_path: exluded)
+        for(const bfs::path& ex_path: _excluded)
         {
             auto in_string = in_path.string();
             auto ex_string = ex_path.string();
@@ -156,17 +155,15 @@ filesystem_scanner::file_filters filesystem_scanner::create_file_filters(
     return f;
 }
 
-filesystem_scanner::dir_filters filesystem_scanner::create_dir_filters(
-        const std::optional<size_t>& scanning_level,
-        const paths& excluded)
+filesystem_scanner::dir_filters filesystem_scanner::create_dir_filters(const std::optional<size_t>& scanning_level)
 {
     dir_filters filters;
 
     if(scanning_level.has_value())
         filters.push_back(dir_filter_creator::dir_level_filter(scanning_level.value()));
 
-    if(!excluded.empty())
-        filters.push_back(dir_filter_creator::dir_excluded_filter(excluded));
+    if(!_excluded.empty())
+        filters.push_back(dir_filter_creator::dir_excluded_filter(_excluded));
 
     return filters;
 }

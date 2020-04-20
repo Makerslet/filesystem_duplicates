@@ -18,14 +18,14 @@ duplicates_scanner::duplicates_scanner(
     {
         std::string hash_str = hash_algo.value();
         if(hash_str == "crc16")
-            _hash = hashCrc<boost::crc_16_type>();
+            _hash = hash_creator<boost::crc_16_type>();
         else if(hash_str == "crc32")
-            _hash = hashCrc<boost::crc_32_type>();
+            _hash = hash_creator<boost::crc_32_type>();
         else
             throw std::runtime_error("unknown hashing algorithm");
     }
     else
-        _hash = hashCrc<boost::crc_32_type>();
+        _hash = hash_creator<boost::crc_32_type>();
 }
 
 std::vector<paths> duplicates_scanner::find(const grouped_by_size& files)
