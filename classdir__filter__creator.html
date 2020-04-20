@@ -68,16 +68,23 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Класс для создания фильтров директорий  
+ <a href="classdir__filter__creator.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="filters_8h_source.html">filters.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ab59036669d7715aebb8e9598826d0760"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="filters_8h.html#a5000b5c4733f7af4259d55488feb9a33">dir_filter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdir__filter__creator.html#ab59036669d7715aebb8e9598826d0760">dir_level_filter</a> (size_t level)</td></tr>
+<tr class="memdesc:ab59036669d7715aebb8e9598826d0760"><td class="mdescLeft">&#160;</td><td class="mdescRight">Метод, генерирующий функтор - фильтр по уровню сканирования  <a href="#ab59036669d7715aebb8e9598826d0760">More...</a><br /></td></tr>
 <tr class="separator:ab59036669d7715aebb8e9598826d0760"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaaba3de232eae70ae89286f2524897d0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="filters_8h.html#a5000b5c4733f7af4259d55488feb9a33">dir_filter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdir__filter__creator.html#aaaba3de232eae70ae89286f2524897d0">dir_excluded_filter</a> (<a class="el" href="common__aliases_8h.html#a22fd30c36580ed963595d149626a82c9">paths</a> excluded)</td></tr>
+<tr class="memdesc:aaaba3de232eae70ae89286f2524897d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Метод, генерирующий функтор - фильтр по исключаемым путям  <a href="#aaaba3de232eae70ae89286f2524897d0">More...</a><br /></td></tr>
 <tr class="separator:aaaba3de232eae70ae89286f2524897d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Класс для создания фильтров директорий </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="aaaba3de232eae70ae89286f2524897d0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaaba3de232eae70ae89286f2524897d0">&#9670;&nbsp;</a></span>dir_excluded_filter()</h2>
 
@@ -101,6 +108,12 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Метод, генерирующий функтор - фильтр по исключаемым путям </p>
+<ul>
+<li>paths - исключенные пути <dl class="section return"><dt>Returns</dt><dd>Функтор - фильтр проверяющий по исключенным путям </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -127,6 +140,12 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Метод, генерирующий функтор - фильтр по уровню сканирования </p>
+<ul>
+<li>level - ограничительный уровень сканирования <dl class="section return"><dt>Returns</dt><dd>Функтор - фильтр проверяющий соответствие уровню сканирования </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>

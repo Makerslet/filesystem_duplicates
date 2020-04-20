@@ -68,16 +68,23 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Класс для создания фильтров файлов  
+ <a href="classfile__filter__creator.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="filters_8h_source.html">filters.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a0ea3fd8c419a03d9db29c1760c953e57"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="filters_8h.html#ab9a9651dbfbc6fd3d66b0450eb08e517">file_filter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfile__filter__creator.html#a0ea3fd8c419a03d9db29c1760c953e57">file_min_size_filter</a> (size_t file_min_size)</td></tr>
+<tr class="memdesc:a0ea3fd8c419a03d9db29c1760c953e57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Метод, генерирующий функтор - фильтр по минимальному размеру файла  <a href="#a0ea3fd8c419a03d9db29c1760c953e57">More...</a><br /></td></tr>
 <tr class="separator:a0ea3fd8c419a03d9db29c1760c953e57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91a027a2c387e80ed2b28404f22a8901"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="filters_8h.html#ab9a9651dbfbc6fd3d66b0450eb08e517">file_filter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfile__filter__creator.html#a91a027a2c387e80ed2b28404f22a8901">file_accepted_masks_filter</a> (const masks &amp;scanning_masks)</td></tr>
+<tr class="memdesc:a91a027a2c387e80ed2b28404f22a8901"><td class="mdescLeft">&#160;</td><td class="mdescRight">Метод, генерирующий функтор - фильтр по маскам  <a href="#a91a027a2c387e80ed2b28404f22a8901">More...</a><br /></td></tr>
 <tr class="separator:a91a027a2c387e80ed2b28404f22a8901"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Класс для создания фильтров файлов </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a91a027a2c387e80ed2b28404f22a8901"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a91a027a2c387e80ed2b28404f22a8901">&#9670;&nbsp;</a></span>file_accepted_masks_filter()</h2>
 
@@ -101,6 +108,12 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Метод, генерирующий функтор - фильтр по маскам </p>
+<ul>
+<li>scanning_masks - маски сканирования <dl class="section return"><dt>Returns</dt><dd>Функтор - фильтр проверяющий соответствие маскам </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -127,6 +140,12 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Метод, генерирующий функтор - фильтр по минимальному размеру файла </p>
+<ul>
+<li>file_min_size - минимальный размер файла <dl class="section return"><dt>Returns</dt><dd>Функтор - фильтр проверяющий соответствие размера файла </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>

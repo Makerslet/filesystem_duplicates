@@ -69,6 +69,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Класс, осуществляющий сравнение файлов одинакового размера  
+ <a href="classduplicates__scanner.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="duplicates__scanner_8h_source.html">duplicates_scanner.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
@@ -79,11 +82,15 @@ Public Types</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ad1526bb1a2fc26444af64cb4ab75d804"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classduplicates__scanner.html#ad1526bb1a2fc26444af64cb4ab75d804">duplicates_scanner</a> (std::optional&lt; size_t &gt; block_size, std::optional&lt; std::string &gt; hash_algo)</td></tr>
+<tr class="memdesc:ad1526bb1a2fc26444af64cb4ab75d804"><td class="mdescLeft">&#160;</td><td class="mdescRight">Конструктор  <a href="#ad1526bb1a2fc26444af64cb4ab75d804">More...</a><br /></td></tr>
 <tr class="separator:ad1526bb1a2fc26444af64cb4ab75d804"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a41dd3e028a29be70adaa71254495b7"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="common__aliases_8h.html#a22fd30c36580ed963595d149626a82c9">paths</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classduplicates__scanner.html#a5a41dd3e028a29be70adaa71254495b7">find</a> (const <a class="el" href="common__aliases_8h.html#a1454d4b807a871cb52ca9bf2d50d0538">grouped_by_size</a> &amp;files_paths)</td></tr>
+<tr class="memdesc:a5a41dd3e028a29be70adaa71254495b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Метод поиска дубликатов среди групп файлов одинакового размера  <a href="#a5a41dd3e028a29be70adaa71254495b7">More...</a><br /></td></tr>
 <tr class="separator:a5a41dd3e028a29be70adaa71254495b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Typedef Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Класс, осуществляющий сравнение файлов одинакового размера </p>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="af2bf51d3a1f54ab77ffd38ca521b3896"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af2bf51d3a1f54ab77ffd38ca521b3896">&#9670;&nbsp;</a></span>hash_function</h2>
 
@@ -125,6 +132,12 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Конструктор </p>
+<ul>
+<li>block_size - размер блока для чтения </li>
+<li>hash_algo - название алгоритма хеширования </li>
+</ul>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -143,6 +156,12 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Метод поиска дубликатов среди групп файлов одинакового размера </p>
+<ul>
+<li>files_paths - пути к файлам, сгруппированные по размеру <dl class="section return"><dt>Returns</dt><dd>Сгруппированные дубликаты </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>

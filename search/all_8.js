@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['scan',['scan',['../classfilesystem__scanner.html#a6677a87156c044347e32ef01ee25466a',1,'filesystem_scanner']]],
+  ['scan',['scan',['../classfilesystem__scanner.html#afa4db5a568bee2d618943ff82a58d55e',1,'filesystem_scanner']]],
   ['scan_5fdir',['scan_dir',['../common__aliases_8h.html#ae21d0da9a0704dc98e300f2bb008bc31',1,'common_aliases.h']]],
   ['scanning_5fblock_5fsize',['scanning_block_size',['../structarguments.html#a8b2b0a7418017421489e80945a647309',1,'arguments']]],
   ['scanning_5fexcluded_5fpaths',['scanning_excluded_paths',['../structarguments.html#a85740b55c26a303aa4d101bba77178fe',1,'arguments']]],

@@ -69,6 +69,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Класс, осуществляющий сканирование файловой системы с целью поиска файлов одинакового размера  
+ <a href="classfilesystem__scanner.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="filesystem__scanner_8h_source.html">filesystem_scanner.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
@@ -80,12 +83,16 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a5d21eb9bdffb4959f76f004eb7a5791c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfilesystem__scanner.html#a5d21eb9bdffb4959f76f004eb7a5791c">filesystem_scanner</a> (const <a class="el" href="common__aliases_8h.html#a22fd30c36580ed963595d149626a82c9">paths</a> &amp;scanning_exluded, std::optional&lt; size_t &gt; scanning_level, std::optional&lt; size_t &gt; scanning_file_min_size, std::vector&lt; std::string &gt; scanning_masks)</td></tr>
-<tr class="separator:a5d21eb9bdffb4959f76f004eb7a5791c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6677a87156c044347e32ef01ee25466a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common__aliases_8h.html#a1454d4b807a871cb52ca9bf2d50d0538">grouped_by_size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfilesystem__scanner.html#a6677a87156c044347e32ef01ee25466a">scan</a> (const <a class="el" href="common__aliases_8h.html#a22fd30c36580ed963595d149626a82c9">paths</a> &amp;included, const <a class="el" href="common__aliases_8h.html#a22fd30c36580ed963595d149626a82c9">paths</a> &amp;excluded)</td></tr>
-<tr class="separator:a6677a87156c044347e32ef01ee25466a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04f546bd8b13994b98a43e9f104a1ff6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfilesystem__scanner.html#a04f546bd8b13994b98a43e9f104a1ff6">filesystem_scanner</a> (const <a class="el" href="common__aliases_8h.html#a22fd30c36580ed963595d149626a82c9">paths</a> &amp;scanning_excluded, std::optional&lt; size_t &gt; scanning_level, std::optional&lt; size_t &gt; scanning_file_min_size, std::vector&lt; std::string &gt; scanning_masks)</td></tr>
+<tr class="memdesc:a04f546bd8b13994b98a43e9f104a1ff6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Конструктор  <a href="#a04f546bd8b13994b98a43e9f104a1ff6">More...</a><br /></td></tr>
+<tr class="separator:a04f546bd8b13994b98a43e9f104a1ff6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa4db5a568bee2d618943ff82a58d55e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="common__aliases_8h.html#a1454d4b807a871cb52ca9bf2d50d0538">grouped_by_size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfilesystem__scanner.html#afa4db5a568bee2d618943ff82a58d55e">scan</a> (const <a class="el" href="common__aliases_8h.html#a22fd30c36580ed963595d149626a82c9">paths</a> &amp;included)</td></tr>
+<tr class="memdesc:afa4db5a568bee2d618943ff82a58d55e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Метод сканирования  <a href="#afa4db5a568bee2d618943ff82a58d55e">More...</a><br /></td></tr>
+<tr class="separator:afa4db5a568bee2d618943ff82a58d55e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Typedef Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Класс, осуществляющий сканирование файловой системы с целью поиска файлов одинакового размера </p>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a37ad6d1de89fdd5e61fe5be318015e70"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a37ad6d1de89fdd5e61fe5be318015e70">&#9670;&nbsp;</a></span>dir_filters</h2>
 
@@ -115,8 +122,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a5d21eb9bdffb4959f76f004eb7a5791c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5d21eb9bdffb4959f76f004eb7a5791c">&#9670;&nbsp;</a></span>filesystem_scanner()</h2>
+<a id="a04f546bd8b13994b98a43e9f104a1ff6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04f546bd8b13994b98a43e9f104a1ff6">&#9670;&nbsp;</a></span>filesystem_scanner()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -125,7 +132,7 @@ Public Member Functions</h2></td></tr>
           <td class="memname">filesystem_scanner::filesystem_scanner </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="common__aliases_8h.html#a22fd30c36580ed963595d149626a82c9">paths</a> &amp;&#160;</td>
-          <td class="paramname"><em>scanning_exluded</em>, </td>
+          <td class="paramname"><em>scanning_excluded</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -153,11 +160,19 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Конструктор </p>
+<ul>
+<li>scanning_exluded - пути исключенные из сканирования </li>
+<li>scanning_level - глубина сканирования относительно заданных дирректорий </li>
+<li>scanning_file_min_size - минимальный размер файла, который подлежит рассмотрению </li>
+<li>scanning_masks - маски файлов </li>
+</ul>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a6677a87156c044347e32ef01ee25466a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6677a87156c044347e32ef01ee25466a">&#9670;&nbsp;</a></span>scan()</h2>
+<a id="afa4db5a568bee2d618943ff82a58d55e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa4db5a568bee2d618943ff82a58d55e">&#9670;&nbsp;</a></span>scan()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -166,21 +181,17 @@ Public Member Functions</h2></td></tr>
           <td class="memname"><a class="el" href="common__aliases_8h.html#a1454d4b807a871cb52ca9bf2d50d0538">grouped_by_size</a> filesystem_scanner::scan </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="common__aliases_8h.html#a22fd30c36580ed963595d149626a82c9">paths</a> &amp;&#160;</td>
-          <td class="paramname"><em>included</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>included</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="common__aliases_8h.html#a22fd30c36580ed963595d149626a82c9">paths</a> &amp;&#160;</td>
-          <td class="paramname"><em>excluded</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Метод сканирования </p>
+<ul>
+<li>included - пути подлежащие сканированию <dl class="section return"><dt>Returns</dt><dd>Группы файлов одинакового размера </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
