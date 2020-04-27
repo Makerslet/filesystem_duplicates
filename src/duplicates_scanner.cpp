@@ -19,10 +19,8 @@ duplicates_scanner::duplicates_scanner(
         std::string hash_str = hash_algo.value();
         if(hash_str == "crc16")
             _hash = hash_creator<boost::crc_16_type>();
-        else if(hash_str == "crc32")
-            _hash = hash_creator<boost::crc_32_type>();
         else
-            throw std::runtime_error("unknown hashing algorithm");
+            _hash = hash_creator<boost::crc_32_type>();
     }
     else
         _hash = hash_creator<boost::crc_32_type>();

@@ -56,11 +56,11 @@ public:
     /**
      * @brief Класс исключения ошибочных аргументов командной строки
      */
-    class wrong_args_exception : public std::invalid_argument
+    class wrong_args_exception : public std::logic_error
     {
     public:
         wrong_args_exception(const std::string& err) :
-            std::invalid_argument(err) {}
+            std::logic_error(err) {}
     };
     using parse_result = std::optional<arguments>;
 
